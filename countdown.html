@@ -42,7 +42,7 @@
             max-width: 700px;
             width: 90%;
             position: relative;
-            z-index: 2;
+            z-index: 3;
         }
 
         .title {
@@ -192,7 +192,8 @@
     </style>
 </head>
 <body>
-    <div class="overlay" id="overlay"></div>
+    <div class="overlay"></div>
+    <div class="cursor-reveal" id="cursorReveal"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
@@ -247,22 +248,41 @@
         // Update countdown every second
         setInterval(updateCountdown, 1000);
 
-        // Cursor reveal effect using CSS mask
-        const overlay = document.getElementById('overlay');
-        
+        // Cursor reveal effect
+        const cursorReveal = document.getElementById('cursorReveal');
+        let mouseX = 0, mouseY = 0;
+        let revealX = 0, revealY = 0;
+
         document.addEventListener('mousemove', function(e) {
-            const x = (e.clientX / window.innerWidth) * 100;
-            const y = (e.clientY / window.innerHeight) * 100;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
             
-            overlay.style.setProperty('--mouse-x', x + '%');
-            overlay.style.setProperty('--mouse-y', y + '%');
+            // Update background position to match cursor for parallax effect
+            const bgX = -e.clientX * 0.02;
+            const bgY = -e.clientY * 0.02;
+            cursorReveal.style.backgroundPosition = `calc(50% + ${bgX}px) calc(50% + ${bgY}px)`;
+        });
+
+        document.addEventListener('mouseenter', function() {
+            cursorReveal.style.opacity = '1';
         });
 
         document.addEventListener('mouseleave', function() {
-            // Hide the reveal when mouse leaves
-            overlay.style.setProperty('--mouse-x', '-200px');
-            overlay.style.setProperty('--mouse-y', '-200px');
+            cursorReveal.style.opacity = '0';
         });
+
+        // Smooth reveal animation
+        function animateReveal() {
+            revealX += (mouseX - revealX) * 0.15;
+            revealY += (mouseY - revealY) * 0.15;
+            
+            cursorReveal.style.left = revealX + 'px';
+            cursorReveal.style.top = revealY + 'px';
+            
+            requestAnimationFrame(animateReveal);
+        }
+
+        animateReveal();
     </script>
 </body>
 </html>

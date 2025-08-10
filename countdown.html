@@ -135,15 +135,15 @@
 
         .cursor-glow {
             position: fixed;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, rgba(255, 245, 225, 0.15) 0%, rgba(255, 240, 210, 0.08) 50%, transparent 80%);
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 240, 200, 0.25) 0%, rgba(255, 235, 190, 0.15) 50%, transparent 80%);
             border-radius: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
-            transition: opacity 0.5s ease;
-            z-index: 2;
-            mix-blend-mode: soft-light;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+            mix-blend-mode: overlay;
             opacity: 0;
         }
 

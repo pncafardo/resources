@@ -19,13 +19,13 @@
             align-items: center;
             justify-content: center;
             background: 
-                linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)),
+                linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)),
                 url('https://images.unsplash.com/photo-1508520255100-c7c05dfdb354?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            backdrop-filter: blur(40px) saturate(120%);
-            -webkit-backdrop-filter: blur(40px) saturate(120%);
+            backdrop-filter: blur(30px) saturate(130%) brightness(110%);
+            -webkit-backdrop-filter: blur(30px) saturate(130%) brightness(110%);
             overflow: hidden;
             border-radius: 24px;
             margin: 0;
@@ -41,8 +41,6 @@
             padding: 60px 40px;
             max-width: 700px;
             width: 90%;
-            position: relative;
-            z-index: 3;
         }
 
         .title {
@@ -57,12 +55,26 @@
 
         .date-subtitle {
             font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-            color: #718096;
-            font-weight: 400;
+            color: #2D5F84;
+            font-weight: 500;
             margin-bottom: 48px;
-            opacity: 0.6;
+            opacity: 0.8;
             letter-spacing: 0.05em;
             text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .date-subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, #2D5F84 20%, #2F6387 50%, #2D5F84 80%, transparent 100%);
+            opacity: 0.4;
         }
 
         .countdown {
@@ -119,7 +131,20 @@
             mix-blend-mode: overlay;
         }
 
-        /* Enhanced floating elements */
+        /* Subtle cursor glow */
+        .cursor-glow {
+            position: fixed;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255, 250, 240, 0.12) 0%, rgba(255, 248, 235, 0.06) 50%, transparent 80%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.5s ease;
+            z-index: 1;
+            mix-blend-mode: soft-light;
+            opacity: 0;
+        }
         .bg-decoration {
             position: absolute;
             width: 200px;
@@ -192,8 +217,7 @@
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
-    <div class="cursor-reveal" id="cursorReveal"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
@@ -248,41 +272,36 @@
         // Update countdown every second
         setInterval(updateCountdown, 1000);
 
-        // Cursor reveal effect
-        const cursorReveal = document.getElementById('cursorReveal');
+        // Subtle cursor glow effect
+        const cursorGlow = document.getElementById('cursorGlow');
         let mouseX = 0, mouseY = 0;
-        let revealX = 0, revealY = 0;
+        let glowX = 0, glowY = 0;
 
         document.addEventListener('mousemove', function(e) {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            
-            // Update background position to match cursor for parallax effect
-            const bgX = -e.clientX * 0.02;
-            const bgY = -e.clientY * 0.02;
-            cursorReveal.style.backgroundPosition = `calc(50% + ${bgX}px) calc(50% + ${bgY}px)`;
         });
 
         document.addEventListener('mouseenter', function() {
-            cursorReveal.style.opacity = '1';
+            cursorGlow.style.opacity = '1';
         });
 
         document.addEventListener('mouseleave', function() {
-            cursorReveal.style.opacity = '0';
+            cursorGlow.style.opacity = '0';
         });
 
-        // Smooth reveal animation
-        function animateReveal() {
-            revealX += (mouseX - revealX) * 0.15;
-            revealY += (mouseY - revealY) * 0.15;
+        // Very smooth glow animation with more lag for subtlety
+        function animateGlow() {
+            glowX += (mouseX - glowX) * 0.08;
+            glowY += (mouseY - glowY) * 0.08;
             
-            cursorReveal.style.left = revealX + 'px';
-            cursorReveal.style.top = revealY + 'px';
+            cursorGlow.style.left = glowX + 'px';
+            cursorGlow.style.top = glowY + 'px';
             
-            requestAnimationFrame(animateReveal);
+            requestAnimationFrame(animateGlow);
         }
 
-        animateReveal();
+        animateGlow();
     </script>
 </body>
 </html>

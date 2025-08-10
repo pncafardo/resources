@@ -19,13 +19,13 @@
             align-items: center;
             justify-content: center;
             background: 
-                linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+                linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)),
                 url('https://images.unsplash.com/photo-1508520255100-c7c05dfdb354?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(40px) saturate(120%);
+            -webkit-backdrop-filter: blur(40px) saturate(120%);
             overflow: hidden;
         }
 
@@ -40,10 +40,20 @@
             font-family: 'DM Serif Display', serif;
             font-size: clamp(2.5rem, 5vw, 4rem);
             color: #2F6387;
-            margin-bottom: 48px;
+            margin-bottom: 16px;
             font-weight: 400;
             letter-spacing: -0.02em;
             text-shadow: 0 2px 8px rgba(47, 99, 135, 0.1);
+        }
+
+        .date-subtitle {
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            color: #718096;
+            font-weight: 400;
+            margin-bottom: 48px;
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         .countdown {
@@ -86,14 +96,29 @@
             margin-top: 8px;
         }
 
-        /* Animated background elements */
+        /* Cursor glow effect */
+        .cursor-glow {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(47, 99, 135, 0.08) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            mix-blend-mode: overlay;
+        }
+
+        /* Enhanced floating elements */
         .bg-decoration {
             position: absolute;
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(47, 99, 135, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(47, 99, 135, 0.06) 0%, transparent 70%);
             animation: float 20s infinite ease-in-out;
+            transition: all 0.3s ease;
         }
 
         .bg-decoration:nth-child(1) {
@@ -158,12 +183,14 @@
     </style>
 </head>
 <body>
+    <div class="cursor-glow" id="cursorGlow"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
     
     <div class="countdown-container">
         <h1 class="title">Lighthouse Day</h1>
+        <p class="date-subtitle">January 30th, 2026</p>
         <div class="countdown" id="countdown">
             <div class="time-unit">
                 <div class="time-number" id="days">000</div>
@@ -210,6 +237,38 @@
         
         // Update countdown every second
         setInterval(updateCountdown, 1000);
+
+        // Cursor glow effect
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = 0, mouseY = 0;
+        let glowX = 0, glowY = 0;
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        document.addEventListener('mouseenter', function() {
+            cursorGlow.style.opacity = '1';
+        });
+
+        document.addEventListener('mouseleave', function() {
+            cursorGlow.style.opacity = '0';
+        });
+
+        // Smooth glow animation
+        function animateGlow() {
+            // Smooth following with easing
+            glowX += (mouseX - glowX) * 0.1;
+            glowY += (mouseY - glowY) * 0.1;
+            
+            cursorGlow.style.left = glowX + 'px';
+            cursorGlow.style.top = glowY + 'px';
+            
+            requestAnimationFrame(animateGlow);
+        }
+
+        animateGlow();
     </script>
 </body>
 </html>

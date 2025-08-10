@@ -192,8 +192,7 @@
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
-    <div class="cursor-reveal" id="cursorReveal"></div>
+    <div class="overlay" id="overlay"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
@@ -248,37 +247,22 @@
         // Update countdown every second
         setInterval(updateCountdown, 1000);
 
-        // Cursor reveal effect
-        const cursorReveal = document.getElementById('cursorReveal');
-        let mouseX = 0, mouseY = 0;
-        let revealX = 0, revealY = 0;
-
+        // Cursor reveal effect using CSS mask
+        const overlay = document.getElementById('overlay');
+        
         document.addEventListener('mousemove', function(e) {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        document.addEventListener('mouseenter', function() {
-            cursorReveal.style.opacity = '1';
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            
+            overlay.style.setProperty('--mouse-x', x + '%');
+            overlay.style.setProperty('--mouse-y', y + '%');
         });
 
         document.addEventListener('mouseleave', function() {
-            cursorReveal.style.opacity = '0';
+            // Hide the reveal when mouse leaves
+            overlay.style.setProperty('--mouse-x', '-200px');
+            overlay.style.setProperty('--mouse-y', '-200px');
         });
-
-        // Smooth reveal animation
-        function animateReveal() {
-            // Smooth following with easing
-            revealX += (mouseX - revealX) * 0.1;
-            revealY += (mouseY - revealY) * 0.1;
-            
-            cursorReveal.style.left = revealX + 'px';
-            cursorReveal.style.top = revealY + 'px';
-            
-            requestAnimationFrame(animateReveal);
-        }
-
-        animateReveal();
     </script>
 </body>
 </html>

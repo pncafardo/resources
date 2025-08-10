@@ -41,6 +41,8 @@
             padding: 60px 40px;
             max-width: 700px;
             width: 90%;
+            position: relative;
+            z-index: 2;
         }
 
         .title {
@@ -190,7 +192,8 @@
     </style>
 </head>
 <body>
-    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="overlay"></div>
+    <div class="cursor-reveal" id="cursorReveal"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
     <div class="bg-decoration"></div>
@@ -245,10 +248,10 @@
         // Update countdown every second
         setInterval(updateCountdown, 1000);
 
-        // Cursor glow effect
-        const cursorGlow = document.getElementById('cursorGlow');
+        // Cursor reveal effect
+        const cursorReveal = document.getElementById('cursorReveal');
         let mouseX = 0, mouseY = 0;
-        let glowX = 0, glowY = 0;
+        let revealX = 0, revealY = 0;
 
         document.addEventListener('mousemove', function(e) {
             mouseX = e.clientX;
@@ -256,26 +259,26 @@
         });
 
         document.addEventListener('mouseenter', function() {
-            cursorGlow.style.opacity = '1';
+            cursorReveal.style.opacity = '1';
         });
 
         document.addEventListener('mouseleave', function() {
-            cursorGlow.style.opacity = '0';
+            cursorReveal.style.opacity = '0';
         });
 
-        // Smooth glow animation
-        function animateGlow() {
+        // Smooth reveal animation
+        function animateReveal() {
             // Smooth following with easing
-            glowX += (mouseX - glowX) * 0.1;
-            glowY += (mouseY - glowY) * 0.1;
+            revealX += (mouseX - revealX) * 0.1;
+            revealY += (mouseY - revealY) * 0.1;
             
-            cursorGlow.style.left = glowX + 'px';
-            cursorGlow.style.top = glowY + 'px';
+            cursorReveal.style.left = revealX + 'px';
+            cursorReveal.style.top = revealY + 'px';
             
-            requestAnimationFrame(animateGlow);
+            requestAnimationFrame(animateReveal);
         }
 
-        animateGlow();
+        animateReveal();
     </script>
 </body>
 </html>

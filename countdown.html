@@ -24,14 +24,15 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             overflow: hidden;
         }
 
         .countdown-container {
             text-align: center;
-            max-width: 600px;
+            padding: 60px 40px;
+            max-width: 700px;
             width: 90%;
         }
 
@@ -165,6 +166,11 @@
         <h1 class="title">Lighthouse Day</h1>
         <div class="countdown" id="countdown">
             <div class="time-unit">
+                <div class="time-number" id="days">000</div>
+                <div class="time-label">Days</div>
+            </div>
+            <div class="separator">:</div>
+            <div class="time-unit">
                 <div class="time-number" id="hours">00</div>
                 <div class="time-label">Hours</div>
             </div>
@@ -172,11 +178,6 @@
             <div class="time-unit">
                 <div class="time-number" id="minutes">00</div>
                 <div class="time-label">Minutes</div>
-            </div>
-            <div class="separator">:</div>
-            <div class="time-unit">
-                <div class="time-number" id="seconds">00</div>
-                <div class="time-label">Seconds</div>
             </div>
         </div>
     </div>
@@ -203,7 +204,7 @@
                 document.getElementById('minutes').textContent = '00';
             }
         }
-        
+
         // Update countdown immediately
         updateCountdown();
         
